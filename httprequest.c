@@ -37,11 +37,7 @@ void hreqparser(char* req, struct httprequest* request){
 	while(token){
 
 		int i = hcompare(token, hfields);
-
-		if(i == -1){ 
-		perror("Failure index");
-		return;
-		}
+		printf("index: %d\n", i);
 
 		switch(i){
 
@@ -60,6 +56,8 @@ void hreqparser(char* req, struct httprequest* request){
 			case 4:
 				request->acceptencoding = token+17;	
 				break;
+			case -1:
+				break;	
 		}
 		token = strtok(NULL, "\r\n");
 	}
@@ -67,11 +65,13 @@ void hreqparser(char* req, struct httprequest* request){
 
 //Compare function definition
 int hcompare(char* token, char** hfields){
+	
+	int key = -1;
 
-	for(int i=0; i<4; i++){
-		if(strncmp(token, hfields[i], 4) == 0){
-			return i;
+	for(int i=0; i<5; i++){
+		if(strstr(token, hfields[i]) != NULL){
+			key = i;
 		}
 	}
-	return -1;
+	return key; 
 }

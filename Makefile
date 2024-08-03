@@ -1,4 +1,4 @@
-main: test.o server.o
+main: test.o server.o httprequest.o
 	gcc -o main test.o server.o httprequest.o
 
 test.o: test.c
